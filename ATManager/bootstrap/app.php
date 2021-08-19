@@ -35,6 +35,7 @@ $app->withEloquent();
 | your own bindings here if you like or you can make another file.
 |
 */
+$app->register(Vluzrmos\Tinker\TinkerServiceProvider::class);
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,

@@ -16,25 +16,41 @@ class ItemsController extends BaseController
 {
     public function index(Request $request){
        
-        return Item::where("category_template_id",$request->id)->get();
+        return Item::where("category_template_id",$request->category_template_id)->get();
         
     }
 
     public function store(Request $request){
-        // DB::beginTransaction();
-        // $attributes = AtributeTemplate::where("category_template_id",$request->category_template_id)->get();
-        // dd($request->category_template_id);
-        $item = Item::create(["description" => $request->description,"name" => $request->name,"category_template_id" =>$request->category_template_id]);
-        $item->save();
-        foreach ($request["attributes"] as $attribute){
-                $att = new Attribute;
-                $att->data =  $attribute["data"];
-                $att->description =  $attribute["description"] ? $attribute["description"] : null ;
-                $att->item()->associate($item);
-                $att->save();
+        // $request->validate([
+        //         'description' => 'required',
+        //         'name' => 'required',
+        //         'category_template_id'=>'required',
+        //         ]);    
+        $attributes_ids = AttributeTemplate::where("category_template_id",$request->category_template_id)->get()->pluck("id")->toarray();
+       
+        $confirmedAttributes = array_filter($request["attributes"], function ($var) use ($attributes_ids) {
+            return in_array($var['id_att'],$attributes_ids);
+        });
+        if(count($confirmedAttributes)>0){
 
+            $item = Item::create(["description" => $request->description,"name" => $request->name,"category_template_id" =>$request->category_template_id]);
+            $item->save();
+            foreach ($confirmedAttributes as $attribute){
+                    $att = new Attribute;
+                    $att->data =  $attribute["data"];
+                    $att->description =  $attribute["description"] ? $attribute["description"] : null ;
+                    $att->item()->associate($item);
+                    $att->save();
+
+            }
+            return repsonse()->json([
+                "status" =>200
+            ]);
         }
-        
+        return repsonse()->json([
+                "status" =>200
+            ]);
+
         
         // DB::commit();
 
