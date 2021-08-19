@@ -15,7 +15,9 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class ItemsController extends BaseController
 {
     public function index(Request $request){
-       
+        $this->validate($request,[
+                'category_template_id' => 'required',
+            ]);
         return Item::where("category_template_id",$request->category_template_id)->get();
         
     }
@@ -46,13 +48,13 @@ class ItemsController extends BaseController
             }
             return response()->json([
                 "status" =>200,
-                "text" =>"items created"
+                "message" =>"items created"
 
             ]);
         }
         return response()->json([
                 "status" =>200,
-                "text" =>"no items created"
+                "message" =>"no items created"
             ]);
 
         
@@ -61,12 +63,31 @@ class ItemsController extends BaseController
     }
 
      
-    public function update(){
-        
+    public function update(Request $request){
+         
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $input = $request->all();
+        $item = Item::find($request->id);
+        $item->update($input);
+ 
+        return response()->json([
+            "status" =>200,
+            'message' => 'Item Atualizado'
+        ]);
     }
 
 
-    public function detroy(){
+    public function detroy(Request $request){
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        Item::destroy($request->id);
         
+        return response()->json([
+            "status" =>200,
+            'message' => 'Item Deletado'
+        ]);
     }
 }

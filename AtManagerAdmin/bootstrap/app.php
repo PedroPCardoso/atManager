@@ -23,10 +23,16 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 $app->withEloquent();
 
+$app->register(Fruitcake\Cors\CorsServiceProvider::class);
+$app->configure('cors');
+
+$app->middleware([
+    Fruitcake\Cors\HandleCors::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings

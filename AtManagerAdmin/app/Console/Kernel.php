@@ -12,6 +12,10 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
+    protected $middleware = [
+        \Fruitcake\Cors\HandleCors::class,
+    // ...
+    ];
     protected $commands = [
         //
     ];
