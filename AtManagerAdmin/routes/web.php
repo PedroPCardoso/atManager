@@ -1,5 +1,6 @@
 <?php
-use App\Models\Category;
+
+/** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,6 @@ $router->patch('/category','CategoryTemplateController@update');
 
 $router->get('/items','ItemsController@index');
 $router->post('/items','ItemsController@store');
-
 
 
 $router->get('/', function () use ($router) {

@@ -21,11 +21,12 @@ class ItemsController extends BaseController
     }
 
     public function store(Request $request){
-        // $request->validate([
-        //         'description' => 'required',
-        //         'name' => 'required',
-        //         'category_template_id'=>'required',
-        //         ]);    
+        $this->validate($request,[
+                'description' => 'required',
+                'name' => 'required',
+                'category_template_id'=>'required',
+                'attributes'=>'required'
+                ]);    
         $attributes_ids = AttributeTemplate::where("category_template_id",$request->category_template_id)->get()->pluck("id")->toarray();
        
         $confirmedAttributes = array_filter($request["attributes"], function ($var) use ($attributes_ids) {
@@ -43,12 +44,15 @@ class ItemsController extends BaseController
                     $att->save();
 
             }
-            return repsonse()->json([
-                "status" =>200
+            return response()->json([
+                "status" =>200,
+                "text" =>"items created"
+
             ]);
         }
-        return repsonse()->json([
-                "status" =>200
+        return response()->json([
+                "status" =>200,
+                "text" =>"no items created"
             ]);
 
         
