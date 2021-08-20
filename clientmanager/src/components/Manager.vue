@@ -1,25 +1,18 @@
 <template>
   <div class="hello">
     <h1>Manager</h1>
+<b-list-group>
+  <b-list-group-item href="create">Criar uma Categoria</b-list-group-item>
+  <b-list-group-item href="add">Adicionar Item</b-list-group-item>
+  <b-list-group-item href="list">Listar Items</b-list-group-item>
+</b-list-group>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   name: 'Manager',
-  data () {
-    return {
-      info: null
-    }
-  },
-  mounted () {
-    axios
-      .get('http://localhost:8000/items?category_template_id=1')
-      .then(response => (
-        this.info = response))
-    console.log(this.info);
-  }
+ 
 }
 </script>
 

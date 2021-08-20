@@ -1,14 +1,39 @@
 <template>
   <div class="items">
+    <h3>List</h3>
+    <b-form-select value-field="id"  v-on:change="getSelectedItems"  text-field="name" v-model="selected" :options="categories"></b-form-select>
+    <div>
+    <b-table striped hover :items="items"></b-table>
+  </div>
+
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  name: 'Manager',
-  props: {
-    msg: String
+  name: 'List',
+  data () {
+    return {
+      selected: null,
+      categories:null,
+      items: null
+    }
+  },
+  async mounted () {
+    let response = await axios.get('http://localhost:8000/category');
+    this.categories = response.data;
+    console.log(this.categories);
+  },
+  methods: {
+    async getSelectedItems(){
+      console.log("get");
+      let response = await axios.get('http://localhost:8000/items'  + '?category_template_id=' +this.selected )
+      this.items = response.data;
+      console.log(this.items);
+    }
   }
+
 }
 </script>
 
