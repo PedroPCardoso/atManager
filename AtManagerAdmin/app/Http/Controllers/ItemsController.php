@@ -24,11 +24,11 @@ class ItemsController extends BaseController
 
     public function store(Request $request){
         $this->validate($request,[
-                'description' => 'required',
                 'name' => 'required',
+                'description' => 'required',
                 'category_template_id'=>'required',
                 'attributes'=>'required'
-                ]);    
+                ]);   
         $attributes_ids = AttributeTemplate::where("category_template_id",$request->category_template_id)->get()->pluck("id")->toarray();
        
         $confirmedAttributes = array_filter($request["attributes"], function ($var) use ($attributes_ids) {
@@ -36,12 +36,12 @@ class ItemsController extends BaseController
         });
         if(count($confirmedAttributes)>0){
 
-            $item = Item::create(["description" => $request->description,"name" => $request->name,"category_template_id" =>$request->category_template_id]);
+            $item = Item::create(["name" => $request->name,"description" => $request->description,"category_template_id" =>$request->category_template_id]);
             $item->save();
             foreach ($confirmedAttributes as $attribute){
                     $att = new Attribute;
                     $att->data =  $attribute["data"];
-                    $att->description =  $attribute["description"] ? $attribute["description"] : null ;
+                    $att->description =  isset($attribute["description"]) ? $attribute["description"] : "" ;
                     $att->item()->associate($item);
                     $att->save();
 

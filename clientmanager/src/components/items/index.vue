@@ -1,11 +1,12 @@
 <template>
   <div class="items">
+    <b-container>
     <h3>List</h3>
     <b-form-select value-field="id"  v-on:change="getSelectedItems"  text-field="name" v-model="selected" :options="categories"></b-form-select>
     <div>
     <b-table striped hover :items="items"></b-table>
   </div>
-
+</b-container>
   </div>
 </template>
 

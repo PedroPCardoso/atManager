@@ -17,7 +17,7 @@ class CategoryTemplate extends Model
 
     public function attributesTemplate()
     {
-        return $this->hasMany(AtributeTemplate::class);
+        return $this->hasMany(AttributeTemplate::class);
     }
 
 }

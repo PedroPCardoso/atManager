@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Manager from "../components/Manager.vue";
 import ListItems from "../components/items/index.vue";
+import addItems from "../components/items/add.vue";
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/list",
     name: "List",
     component: ListItems,
+  },
+  {
+    path: "/add",
+    name: "Add",
+    component: addItems,
   },
 ];
 

@@ -13,7 +13,7 @@ class CategoryTemplateController extends BaseController
 {
     public function index(){
       
-        return CategoryTemplate::get();
+        return CategoryTemplate::with('attributesTemplate')->get();
     }
 
     public function store(Request $request){
