@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Manager from "../components/Manager.vue";
 import ListItems from "../components/items/index.vue";
 import addItems from "../components/items/add.vue";
+import addCategorias from "../components/categorias/add.vue";
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/add",
     name: "Add",
     component: addItems,
+  },
+  {
+    path: "/create",
+    name: "create",
+    component: addCategorias,
   },
 ];
 

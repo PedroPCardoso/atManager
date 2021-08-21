@@ -1,41 +1,69 @@
 <template>
   <div class="add">
     <b-container>
-    <h3>Escolha a categoria que você quer adicionar um item</h3>
-    <b-form-select 
-    value-field="attributes_template"  
-     text-field="name" v-on:change="getSelectedItems" v-model="selected" 
-     :options="categories"></b-form-select>
+    <h3>Criar uma nova categoria</h3>
+   
   
-    <b-form v-if="selected" @submit="onSubmit" >
+    <b-form inline @submit="onSubmit" >
       <br>
       <b-form-group
         id="input-group-att"
       >
         <b-form-input
+        id="inline-form-input-name"
+      class="mb-2 mr-sm-2 mb-sm-0"
           type="text"
+          placeholder="name"
            v-model="nome"
           required
         ></b-form-input>
+<br>
+
                 <b-form-input
+               id="inline-form-input-name"
+      class="mb-2 mr-sm-2 mb-sm-0"
           type="text"
+          placeholder="description"
            v-model="description"
           required
         ></b-form-input>
       </b-form-group>
-
-      <div v-for="att in selected" :key="att.id">
-      <b-form-group
+<br>
+<br>
+      <div v-for="att in selected" :key="att">
+      <b-form-group class="mb-2"
         id="input-group-att"
       >
         <b-form-input
           type="text"
-           v-model="attributes[att.id]"
-          v-bind:placeholder="att.description"
+          placeholder="Nome do atributo"
+          v-model="names[att]"
           required
         ></b-form-input>
-      </b-form-group>
+        <b-form-input
+          type="text"
+          placeholder="Descrição do atributo"
+          v-model="descriptions[att]"
+          required
+        ></b-form-input>
+      
+       </b-form-group>
+   <!-- <b-form-group
+        id="input-group-att"
+      >
+        <b-form-input
+          type="text"
+          v-model="attributes[att]['description']"
+          required
+        ></b-form-input>
+
+
+      </b-form-group>  -->
+      
+
       </div>
+      <br>
+      <b-button type="button" v-on:click="addAtt" variant="primary">add attribute</b-button>
       <br>
       <br>
       <b-button type="submit" variant="primary">Submit</b-button>
@@ -46,26 +74,17 @@
 
 <script>
 import axios from 'axios';
-// import Axios from 'axios';
-
-// const api = Axios.create({
-//   baseURL: 'localhost:8000',
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
-
 export default {
   name: 'List',
   data () {
     return {
-      selected: null,
+      selected: [0],    
       categories:null,
+      checked:false,
       items: null,
-      category_template_id:null,
-      articleId: null,
-      attributes: {
-        },
+      names:[],
+      descriptions:[],
+      required:[false,],
       nome:null,
       description:null
 
@@ -77,31 +96,31 @@ export default {
     console.log(this.categories);
   },
   methods: {
-    getSelectedItems(){
+    addAtt(){
+      this.selected.push([this.selected.length]);
       console.log("get");
       console.log(JSON.stringify(this.selected));
-      this.category_template_id=this.selected[0].category_template_id;
+      // let response = await axios.get('http://localhost:8000/items'  + '?category_template_id=' +this.selected )
+      // this.items = response.data;
+      // console.log(this.items);
     },
     onSubmit(event) {
-      var att = JSON.parse(JSON.stringify(this.attributes));
-      var keys = Object.keys(att);
-      var values =Object.values(att);
       var myarr = [];
-      for(var i=0;i<keys.length;i++){
+      for(var i=0;i<this.selected.length;i++){
          var obj = {
-           "id_att" :keys[i],
-           "data" :values[i],
+           "name" :this.names[i],
+           "description" :this.descriptions[i]
          }
          myarr.push(obj);
       }
       console.log(myarr);
       this.selected = JSON.parse(JSON.stringify(this.selected));
-      const item = { name: this.nome,
+      const category = { name: this.nome,
                     description: this.description,
-                    category_template_id:this.category_template_id,
                     attributes: myarr
                     };
-      var response = axios.post("http://localhost:8000/items", item).then(function (response) {
+      console.log(category);
+      var response = axios.post("http://localhost:8000/category", category).then(function (response) {
                      // handle success
                     alert(JSON.stringify(response.data.message))
                     console.log(response);

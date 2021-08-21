@@ -29,16 +29,22 @@ export default {
   methods: {
     async getSelectedItems(){
       console.log("get");
-      let response = await axios.get('http://localhost:8000/items'  + '?category_template_id=' +this.selected )
-      this.items = response.data;
-      console.log(this.items);
-    }
+      let response = await axios.get('http://localhost:8000/items'  + '?category_template_id=' +this.selected );
+      console.log(response.data);
+      for(var i=0; i<response.data.length;i++){
+        for(var j=0; j<response.data[i].attributies.length;j++){
+          response.data[i][response.data[i].attributies[j].description] = response.data[i].attributies[j].data;
+        }
+        response.data[i].attributies=null;
+      }
+      this.items=response.data;
+   
+  }
   }
 
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

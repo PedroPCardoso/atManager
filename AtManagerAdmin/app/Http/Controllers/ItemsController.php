@@ -18,7 +18,17 @@ class ItemsController extends BaseController
         $this->validate($request,[
                 'category_template_id' => 'required',
             ]);
-        return Item::where("category_template_id",$request->category_template_id)->get();
+        return Item::where("category_template_id",$request->category_template_id)->with('attributes')
+        ->get()->map(function ($item) {
+
+
+            return ([
+            'nome'=> $item->name,
+            'Descrição'=> $item->description,
+            'attributies' =>  $item->attributes             
+
+            ]);
+        })   ;
         
     }
 
@@ -35,13 +45,12 @@ class ItemsController extends BaseController
             return in_array($var['id_att'],$attributes_ids);
         });
         if(count($confirmedAttributes)>0){
-
             $item = Item::create(["name" => $request->name,"description" => $request->description,"category_template_id" =>$request->category_template_id]);
             $item->save();
             foreach ($confirmedAttributes as $attribute){
                     $att = new Attribute;
                     $att->data =  $attribute["data"];
-                    $att->description =  isset($attribute["description"]) ? $attribute["description"] : "" ;
+                    $att->description =   AttributeTemplate::find($attribute["id_att"])->name;
                     $att->item()->associate($item);
                     $att->save();
 

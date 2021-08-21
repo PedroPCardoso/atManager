@@ -17,6 +17,11 @@ class CategoryTemplateController extends BaseController
     }
 
     public function store(Request $request){
+        $this->validate($request,[
+        'name' => 'required',
+        'description' => 'required',
+        'attributes'=>'required'
+        ]);   
         // DB::beginTransaction();
         // dd($request->all());
         $categoryTemplate = CategoryTemplate::create(["description" => $request->description,"name" => $request->name]);
@@ -24,13 +29,17 @@ class CategoryTemplateController extends BaseController
         foreach($request["attributes"] as $attribute){
             $att = new AttributeTemplate;
             $att->name =$attribute["name"];
-            $att->required =$attribute["required"];            
+            $att->required =true;            
             $att->description = $attribute["description"];
             // $att = AtributeTemplate::create(["description" => $attribute->description,"name" => $attribute->name,"required" => $attribute->required]);
             $att->categoryTemplate()->associate($categoryTemplate);
             $att->save();
         }
-        
+        return response()->json([
+                "status" =>200,
+                "message" =>"Category created"
+
+            ]);
         // DB::commit();
 
     }
