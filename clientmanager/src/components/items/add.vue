@@ -15,10 +15,12 @@
         <b-form-input
           type="text"
            v-model="nome"
+          placeholder="nome"
           required
         ></b-form-input>
                 <b-form-input
           type="text"
+          placeholder="description"
            v-model="description"
           required
         ></b-form-input>

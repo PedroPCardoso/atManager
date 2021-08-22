@@ -7,6 +7,19 @@
 
 Crie categorias, adicione items e confira os items salvos filtrando por categoria.
 
+### Explicando a solução
+
+O desafio deixa uma ideia de que as categorias seriam tabelas diferentes,e os atributos seriam especificados na hora da criação, uma solução para isso seria executar um eval por exemplo para criação da tabela no banco mas a criação de tabelas de forma manual direto no codigo não é algo recomendado e pode haver algumas falhas de segurança, como SQLInjection.
+
+Para resolver o problema, foram criadas 2 tabelas para montar uma categoria, as tabelas são CategoryTemplate e AttributeTemplate, o nome é autoexplicativo e a relação é que uma categoria possui diversos AttributeTemplate.
+
+No AttributeTemplate é possivel definir name,description,required. E no CategoryTemplate você pode definir nome e descrição da categoria.
+
+Com o template de uma categoria criado, você pode adicionar um item a qualquer tabela criada, ao selecionar a tabela que deseja criar um novo item, os atributos relacionados serão apresentados assim como a descrição do que é cada um.
+
+Também existe a opção de listagem, que carrega os items de determinada categoria e mostra numa tabela.
+
+
 - Front End Stack => Vuejs
 - Back End Stack => Lumen ( Microframework based Laravel)
 
@@ -19,7 +32,7 @@ Crie categorias, adicione items e confira os items salvos filtrando por categori
 
 ### Steps para rodar o projeto
 Clonar o projeto
-Crir o env e instalar as dependencias do Lumen (Utilizndo mysql como database)
+Crir o env e instalar as dependencias do Lumen (Utilizando mysql como database)
 Rodar o projeto
 Backend:
 ```sh
@@ -36,6 +49,13 @@ cd clientmanager
 yarn install
 yarn serve
 ```
+
+## Melhorias que podem ser implementadas
+
+- Login para entrar na plataforma
+- Editar e Deletar items e categorias
+- Testes Unitarios
+- Organizar mais o front, criar o modulo API para utilizar onde for preciso as requests. Pensar melhor em como organizar os components para torna-los Views.
 
 ## License
 
