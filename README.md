@@ -23,6 +23,9 @@ Também existe a opção de listagem, que carrega os items de determinada catego
 - Front End Stack => Vuejs
 - Back End Stack => Lumen ( Microframework based Laravel)
 
+Porque utilizar o Lumen ? 
+O Lumen é um laravel simplificado, ele é indicado justamente para desenvolvimento de APIs RESTFul, pois por não ter todos os modulos do Laravel possui um desempenho/performace melhor, pois exemplo ele não vem preinstalado o blade, que não faria sentido num projeto com finalidade de Api.
+
 
 ## Features
 
