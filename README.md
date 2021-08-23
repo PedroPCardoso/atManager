@@ -58,6 +58,9 @@ yarn serve
 - Login para entrar na plataforma
 - Editar e Deletar items e categorias
 - Testes Unitarios
+- Barra de pesquisar em categorias
+- Paginação dos items
+- Aperfeiçoamento das querys, testar utilizando mysql ao invés do eloquent por exemplo.
 - Organizar mais o front, criar o modulo API para utilizar onde for preciso as requests. Pensar melhor em como organizar os components para torna-los Views.
 
 ## License
